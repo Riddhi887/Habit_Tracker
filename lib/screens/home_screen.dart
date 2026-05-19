@@ -6,6 +6,7 @@ import 'package:habit_tracker/providers/habit_provider.dart';
 import 'package:habit_tracker/screens/add_habit_screen.dart';
 import 'package:habit_tracker/screens/login_screen.dart';
 import 'package:habit_tracker/services/auth_service.dart';
+import 'package:habit_tracker/screens/insights_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -72,15 +73,43 @@ class HomeScreen extends ConsumerWidget {
         },
       ),
 
-      //action button
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const AddHabitScreen()),
-          );
-        },
-        label: const Text('New Habit'),
-        icon: Icon(Icons.add),
+      //insigths button
+      floatingActionButton: habitAsync.when(
+        data: (habits) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => InsightsScreen(habits: habits),
+                  ),
+                );
+              },
+              backgroundColor: const Color.fromARGB(255, 238, 229, 255),
+              foregroundColor: Colors.deepPurple.shade900,
+              icon: const Icon(Icons.bar_chart_rounded),
+              label: const Text('Insights'),
+            ),
+
+            const SizedBox(height: 10),
+
+            //add action button
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddHabitScreen(),
+                  ),
+                );
+              },
+              label: const Text('New Habit'),
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        loading: () => const SizedBox.shrink(),
+        error: (_, __) => const SizedBox.shrink(),
       ),
     );
   }
