@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_tracker/screens/login_screen.dart';
 import 'package:habit_tracker/services/auth_service.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
   @override
-  State<SignUpScreen> createState() {
+  ConsumerState<SignUpScreen> createState() {
     return _SignUpScreenState();
   }
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   // controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
