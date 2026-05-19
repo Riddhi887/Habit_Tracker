@@ -67,7 +67,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       appBar: AppBar(title: const Text('Create Your Account')),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: EdgeInsets.all(25.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -129,14 +129,25 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   },
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 30),
 
                 //sign up button
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _signUp,
-                  child: _isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Create ACcount'),
+                SizedBox(
+                  width: double.infinity,
+                  height: 45,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _signUp,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 92, 72, 149),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            'Create Account',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                  ),
                 ),
               ],
             ),

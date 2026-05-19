@@ -40,9 +40,8 @@ class AuthService {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
-      e.message;
+      return e.message;
     }
-    return null;
   }
 
   //sign out

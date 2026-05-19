@@ -1,6 +1,6 @@
 //blueprint of habits in app
 //handels hive local storage and firestore for habits
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
@@ -96,7 +96,7 @@ class Habit extends HiveObject {
       'title': title,
       'emoji': emoji,
       'userId': userId,
-      'createdAt': createdAt,
+      'createdAt': Timestamp.fromDate(createdAt),
       'checkIns': checkIns.map((d) => d.toIso8601String()).toList(),
     };
   }
@@ -108,10 +108,9 @@ class Habit extends HiveObject {
       ..title = map['title']
       ..emoji = map['emoji']
       ..userId = map['userId']
-      ..createdAt =
-          DateTime.parse(map['createdAt']) //convert back to dateTime
+      ..createdAt = (map['createdAt'] as Timestamp).toDate() //convert back to dateTime
       ..checkIns = (map['checkIns'] as List)
-          .map((d) => DateTime.parse(d))
+          .map((d) => DateTime.parse(d as String))
           .toList();
   }
 }

@@ -35,14 +35,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   //while login check validation
   Future<void> _login() async {
-    //if no validation : return : show error
     if (!_formKey.currentState!.validate()) return;
 
     setState(() {
       _isLoading = true;
     });
 
-    //else
     final String? error = await _authService.signIn(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
@@ -53,18 +51,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     if (error != null) {
-      //show error in snackbar
+      // show error snackbar
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error), backgroundColor: Colors.purple[100]),
+          SnackBar(
+            content: Text(error),
+            backgroundColor: const Color.fromARGB(255, 112, 93, 145),
+          ),
         );
-      } else {
-        //navigate to HomeScreen
-        if (mounted) {
-          Navigator.of(
-            context,
-          ).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
-        }
+      }
+    } else {
+      // navigate only when login succeeds
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
       }
     }
   }
@@ -86,9 +87,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Text(
                   'HABIT TRACKER',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.blueGrey[500]),
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 91, 54, 186),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
+                const SizedBox(height: 25),
                 //Email Field
                 TextFormField(
                   controller: _emailController,
@@ -152,6 +158,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   onPressed: _isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: const Color.fromARGB(255, 92, 72, 149),
+                    foregroundColor: Colors.white,
                   ),
                   child: _isLoading
                       ? const SizedBox(
