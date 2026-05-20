@@ -10,6 +10,24 @@ class AuthService {
   //get currently logged in user
   User? get currentUser => _auth.currentUser;
 
+  //helper method to get error message
+  String _mapAuthError(String code) {
+    switch (code) {
+      case 'user-not-found':
+        return 'No account found with this email';
+      case 'wrong-password':
+        return 'Incorrect Password, try again.';
+      case 'email-already-in-use':
+        return 'This email already exist.';
+      case 'invalid-email':
+        return 'Please enter a valid email address.';
+      case 'weak-password':
+        return 'Password must be at least 6 characters.';
+      default:
+        return 'Something went wrong. Please try again.';
+    }
+  }
+
   //sign up
   Future<String?> signUp({
     required String email,
@@ -27,7 +45,7 @@ class AuthService {
       await cred.user?.updateDisplayName(name);
       return null;
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return _mapAuthError(e.code);
     }
   }
 
@@ -40,7 +58,7 @@ class AuthService {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return _mapAuthError(e.code);
     }
   }
 
